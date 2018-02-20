@@ -1,2 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 Cipher.iml
+.idea/artifacts/
+.idea/inspectionProfiles/
+.idea/workspace.xml
+out/
