@@ -19,22 +19,23 @@ public class Controller implements Initializable{
     @FXML
     JFXTextField txtEncryptFile, txtDecryptFile;
     @FXML
-    JFXButton btnEncrypt, btnDecrypt;
+    JFXButton btnEncrypt, btnEncryptPane, btnDecryptPane;
     @FXML
     AnchorPane paneEncrypt, paneDecrypt;
 
     private boolean mode;
     public static String filePath;
+    public File selectedFile;
 
     @FXML
     public void handlePane(MouseEvent event){
-        if (event.getSource()==btnEncrypt){
+        if (event.getSource()==btnEncryptPane){
             paneEncrypt.toFront();
             mode = false;
             System.out.println(mode);
 
 
-        } else if (event.getSource()==btnDecrypt){
+        } else if (event.getSource()==btnDecryptPane){
             paneDecrypt.toFront();
             mode = true;
             System.out.println(mode);
@@ -47,7 +48,7 @@ public class Controller implements Initializable{
         if (mode){
             fc.getExtensionFilters().addAll(
                     new FileChooser.ExtensionFilter("text files","*.txt"));
-            File selectedFile = fc.showOpenDialog(null);
+            selectedFile = fc.showOpenDialog(null);
             if(selectedFile != null){
                     txtDecryptFile.setText(selectedFile.getAbsolutePath());
                     filePath = txtDecryptFile.getText().trim();
@@ -56,10 +57,10 @@ public class Controller implements Initializable{
 //            System.out.println("File is not valid");
             }
 
-        }else {
+        }else if (!mode){
             fc.getExtensionFilters().addAll(
                     new FileChooser.ExtensionFilter("text files","*.txt"));
-            File selectedFile = fc.showOpenDialog(null);
+            selectedFile = fc.showOpenDialog(null);
 
             if(selectedFile != null){
                 txtEncryptFile.setText(selectedFile.getAbsolutePath());

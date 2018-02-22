@@ -9,8 +9,8 @@
 
 <AnchorPane prefHeight="450.0" prefWidth="480.0" style="-fx-background-color: #ffff;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
     <children>
-      <JFXButton fx:id="btnEncrypt" layoutX="4.0" layoutY="150.0" onMouseClicked="#handlePane" opacity="0.8" prefHeight="75.0" prefWidth="169.0" style="-fx-background-color: #ffff;" text="Encrypt" textOverrun="CLIP" />
-      <JFXButton fx:id="btnDecrypt" layoutX="4.0" layoutY="226.0" onMouseClicked="#handlePane" opacity="0.8" prefHeight="75.0" prefWidth="169.0" style="-fx-background-color: #ffff;" text="Decrypt" textOverrun="CLIP" />
+      <JFXButton fx:id="btnEncryptPane" layoutX="4.0" layoutY="150.0" onMouseClicked="#handlePane" opacity="0.8" prefHeight="75.0" prefWidth="169.0" style="-fx-background-color: #ffff;" text="Encrypt" textOverrun="CLIP" />
+      <JFXButton fx:id="btnDecryptPane" layoutX="4.0" layoutY="226.0" onMouseClicked="#handlePane" opacity="0.8" prefHeight="75.0" prefWidth="169.0" style="-fx-background-color: #ffff;" text="Decrypt" textOverrun="CLIP" />
       <AnchorPane fx:id="paneDecrypt" layoutX="172.0" prefHeight="450.0" prefWidth="508.0" style="-fx-background-color: #EEEEEE;">
          <children>
             <JFXTextField fx:id="txtDecryptFile" editable="false" layoutX="104.0" layoutY="170.0" opacity="0.75" prefHeight="31.0" prefWidth="300.0" promptText="select a file to decrypt">
