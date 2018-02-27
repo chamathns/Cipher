@@ -6,10 +6,8 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -33,8 +31,8 @@ public class Controller implements Initializable{
     public static String filePath;
     public File selectedFile;
     private String encryptedValue,decryptedValue;
-    Substitution substitution = new Substitution();
-    Permutation permutation = new Permutation();
+//    Substitution substitution = new Substitution();
+//    Permutation permutation = new Permutation();
 
     @FXML
     public void handlePane(MouseEvent event){
@@ -86,10 +84,10 @@ public class Controller implements Initializable{
             e.printStackTrace();
         }
         String secretKey = secretKeyEncrypt.getText().trim();
-        encryptedValue = permutation.encryptWithPerm(substitution.encryptWithSub(everything,secretKey),secretKey);
+        encryptedValue = Permutation.getInstance().getEncryptPermutation(Substitution.getInstance().getEncryptSubstitution(everything,secretKey),secretKey);
 
         try {
-            FileController.fileWriter("C:\\Users\\USER\\Desktop\\savedText.txt",encryptedValue);
+            FileController.fileWriter("C:\\data\\savedText.txt",encryptedValue);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -103,30 +101,21 @@ public class Controller implements Initializable{
         }
         String secretKey = secretKeyDecrypt.getText().trim();
         System.out.println(secretKey);
-        decryptedValue = substitution.decryptwithSub(permutation.decryptWithPerm(everything,secretKey),secretKey);
+        decryptedValue = Substitution.getInstance().getDecryptSubstitution(Permutation.getInstance().getDecryptPermutation(everything,secretKey),secretKey);
 
         System.out.println(decryptedValue);
 
         try {
-            FileController.fileWriter("C:\\Users\\USER\\Desktop\\savedText.txt",decryptedValue);
+            FileController.fileWriter("C:\\data\\savedText.txt",decryptedValue);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-
-
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
 
-
-//    @Override
-//    public void initialize(URL location, ResourceBundle resources) {
-//
-//    }
 }

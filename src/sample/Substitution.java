@@ -1,60 +1,79 @@
 package sample;
 
-import java.math.BigInteger;
+public class Substitution {
+    private static Substitution instance = new Substitution();
 
-public class Substitution
-{
-    public String encryptWithSub(String inputString, String secretKey){
-        String subString = "";
-        int value = 0;
-
-        for(int j = 0; j < secretKey.length(); j++){
-            value += (int)secretKey.charAt(j);
-        }
-
-        int subVal = value % secretKey.length() + 2;
-
-        for(int i=0 ; i<inputString.length() ; i++) {
-            char c = inputString.charAt(i);
-            if(i%3 == 0){
-                subString += ((char) (c + subVal));
-            }
-            else if(i%3 == 1){
-                subString += ((char) (c + subVal + 3));
-            }
-            else{
-                subString += ((char) (c + subVal + 5));
-            }
-
-        }
-//        System.out.println("Enc sub: "+subString);
-        return subString;
+    public static Substitution getInstance() {
+        return instance;
     }
 
-    public String decryptwithSub(String inputString, String secretKey){
-        String decryptedString = "";
-
+    private String encryptSubstitution(String inputValue, String passphrase) {
+        String substitutedValue = "";
         int value = 0;
+        int keyLength = passphrase.length();
 
-        for(int j = 0; j<secretKey.length(); j++){
-            value += (int)secretKey.charAt(j);
+        for (int j = 0; j < keyLength; j++) {
+            value += (int) passphrase.charAt(j);
         }
 
-        int subVal = value%secretKey.length() + 2;
+        int subVal = value % keyLength + keyLength;
 
-        for(int i=0; i<inputString.length(); i++){
-            char c = inputString.charAt(i);
-            if(i%3 == 0){
-                decryptedString += ((char) (c - subVal));
+        for (int i = 0; i < inputValue.length(); i++) {
+            char c = inputValue.charAt(i);
+            if (i % keyLength == 0) {
+                substitutedValue += ((char) (c + subVal));
+            } else if (i % keyLength == 1) {
+                substitutedValue += ((char) (c + subVal + keyLength % 2));
+            } else if (i % keyLength == 2) {
+                substitutedValue += ((char) (c + subVal + keyLength % 3));
+
+            } else if (i % keyLength == 3) {
+                substitutedValue += ((char) (c + subVal + keyLength % 5));
+
+            } else {
+                substitutedValue += ((char) (c + subVal + keyLength % 7));
             }
-            else if(i%3 == 1){
-                decryptedString += ((char) (c - subVal - 3));
-            }
-            else{
-                decryptedString += ((char) (c - subVal - 5));
-            }
+
         }
-//        System.out.println("Dec sub: "+decryptedString);
-        return decryptedString;
+        return substitutedValue;
     }
+
+
+    public String getEncryptSubstitution(String input, String passphrase){
+        return Substitution.getInstance().encryptSubstitution(input, passphrase);
+    }
+
+
+        private String decryptSubstitution (String inputValue, String passphrase){
+            String decryptedValue = "";
+            int keyLength = passphrase.length();
+            int value = 0;
+
+            for (int j = 0; j < keyLength; j++) {
+                value += (int) passphrase.charAt(j);
+            }
+
+            int subVal = value % keyLength + keyLength;
+
+            for (int i = 0; i < inputValue.length(); i++) {
+                char c = inputValue.charAt(i);
+                if (i % keyLength == 0) {
+                    decryptedValue += ((char) (c - subVal));
+                } else if (i % keyLength == 1) {
+                    decryptedValue += ((char) (c - subVal - keyLength % 2));
+                } else if (i % keyLength == 2) {
+                    decryptedValue += ((char) (c - subVal - keyLength % 3));
+                } else if (i % keyLength == 3) {
+                    decryptedValue += ((char) (c - subVal - keyLength % 5));
+                } else {
+                    decryptedValue += ((char) (c - subVal - keyLength % 7));
+                }
+            }
+            return decryptedValue;
+        }
+
+    public String getDecryptSubstitution(String input, String passphrase){
+        return Substitution.getInstance().decryptSubstitution(input, passphrase);
+    }
+
 }

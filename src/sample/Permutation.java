@@ -1,54 +1,62 @@
 package sample;
 
 public class Permutation {
+    private static Permutation instance = new Permutation();
 
-    public String encryptWithPerm(String inputString, String secretKey){
-
-        int deficit;
-        int n = secretKey.length();
-        deficit = inputString.length()%n;
-        System.out.println("Deficit: "+deficit);
-        if(deficit != 0) {
-            deficit = n-deficit;
-            for(int a = deficit; a != 0 ; a--) {
-                inputString += "*";
-            }
-        }
-        System.out.println(inputString);
-        StringBuffer permutedString = new StringBuffer();
-        int width = inputString.length()/n;
-        for(int i = 0 ; i < n ; i++) {
-            for(int j = 0 ; j < width ; j++) {
-                char c = inputString.charAt(i+(j*n));
-//                System.out.print(c);
-                permutedString.append(c);
-            }
-//            System.out.println();
-        }
-        System.out.println(permutedString);
-        return permutedString.toString();
+    public static Permutation getInstance() {
+        return instance;
     }
 
-    public String decryptWithPerm(String inputString, String secretKey){
-        int n = secretKey.length();
-        int width = inputString.length()/n;
-        if(inputString.length()%n != 0){
+    private String encryptPermutation(String inputValue, String passphrase){
+
+        int deficit;
+        int keyLength = passphrase.length();
+        deficit = inputValue.length()%keyLength;
+        if(deficit != 0) {
+            deficit = keyLength-deficit;
+            for(int i = deficit; i != 0 ; i--) {
+                inputValue += "*";
+            }
+        }
+        System.out.println(inputValue);
+        StringBuffer permutedValue = new StringBuffer();
+        int width = inputValue.length()/keyLength;
+        for(int i = 0 ; i < keyLength ; i++) {
+            for(int j = 0 ; j < width ; j++) {
+                char c = inputValue.charAt(i+(j*keyLength));
+                permutedValue.append(c);
+            }
+        }
+        System.out.println(permutedValue);
+        return permutedValue.toString();
+    }
+
+    public String getEncryptPermutation(String input, String passphrase){
+        return Permutation.getInstance().encryptPermutation(input, passphrase);
+    }
+
+
+    private String decryptPermutation(String inputValue, String passphrase){
+        int n = passphrase.length();
+        int width = inputValue.length()/n;
+        if(inputValue.length()%n != 0){
             return "Invalid secret key";
         }
         else{
 
-            StringBuffer reorganisedString = new StringBuffer();
+            StringBuffer reorganisedValue = new StringBuffer();
             for(int i = 0 ; i < width ; i++) {
                 for(int j = 0 ; j< n ; j++) {
-                    char c = inputString.charAt(i+(j*width));
-//                    System.out.print(c);
-                    reorganisedString.append(c);
+                    char c = inputValue.charAt(i+(j*width));
+                    reorganisedValue.append(c);
                 }
-//                System.out.println();
             }
 
 
-            return reorganisedString.toString();
+            return reorganisedValue.toString();
         }
+    }
+    public String getDecryptPermutation(String input, String passphrase){
+        return Permutation.getInstance().decryptPermutation(input, passphrase);
     }
 }
