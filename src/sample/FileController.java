@@ -3,25 +3,27 @@ package sample;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static sample.Controller.filePath;
 
-
 public class FileController {
-    public static String everything;
+    private String slectedFile, savedFile;
+    private static FileController instance = new FileController();
+    public static String everything, output;
+    private static FileWriter fw = null;
 
-    public static void fileReader() throws IOException{
-//        byte bytes[] = FileUtils.readFileToByteArray(file);
-        try(FileInputStream inputStream = new FileInputStream(filePath)) {
+
+    public FileController getInstance(){
+        return instance;
+    }
+
+    public static void fileReader(String selectedFile) throws IOException{
+        try(FileInputStream inputStream = new FileInputStream(selectedFile)) {
              everything = IOUtils.toString(inputStream);
-            // do something with everything string
         }finally {
             {
                 System.out.println(everything);
@@ -46,9 +48,15 @@ public class FileController {
 //        }
 
     }
-
-    public  static void fileWriter() throws IOException{
-
+    public static void fileWriter(String savedFile , String value) throws IOException{
+        try {
+            fw = new FileWriter(savedFile);
+            IOUtils.write(value,fw);
+        } catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            IOUtils.closeQuietly(fw);
+        }
 
     }
 }

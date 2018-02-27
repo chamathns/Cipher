@@ -1,6 +1,7 @@
 package sample;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -15,9 +17,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static sample.FileController.everything;
+
 public class Controller implements Initializable{
     @FXML
     JFXTextField txtEncryptFile, txtDecryptFile;
+    @FXML
+    JFXPasswordField secretKeyEncrypt, secretKeyDecrypt;
     @FXML
     JFXButton btnEncrypt, btnEncryptPane, btnDecryptPane;
     @FXML
@@ -26,19 +32,19 @@ public class Controller implements Initializable{
     private boolean mode;
     public static String filePath;
     public File selectedFile;
+    private String encryptedValue,decryptedValue;
+    Substitution substitution = new Substitution();
+    Permutation permutation = new Permutation();
 
     @FXML
     public void handlePane(MouseEvent event){
         if (event.getSource()==btnEncryptPane){
             paneEncrypt.toFront();
             mode = false;
-            System.out.println(mode);
-
 
         } else if (event.getSource()==btnDecryptPane){
             paneDecrypt.toFront();
             mode = true;
-            System.out.println(mode);
         }
     }
 
@@ -71,12 +77,42 @@ public class Controller implements Initializable{
             }
         }
     }
+
+
     public void handleEncrypt(ActionEvent event) throws IOException {
         try {
-            FileController.fileReader();
+            FileController.fileReader(filePath);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        String secretKey = secretKeyEncrypt.getText().trim();
+        encryptedValue = permutation.encryptWithPerm(substitution.encryptWithSub(everything,secretKey),secretKey);
+
+        try {
+            FileController.fileWriter("C:\\Users\\USER\\Desktop\\savedText.txt",encryptedValue);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void handleDecrypt(ActionEvent event) throws IOException {
+        try {
+            FileController.fileReader(filePath);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        String secretKey = secretKeyDecrypt.getText().trim();
+        System.out.println(secretKey);
+        decryptedValue = substitution.decryptwithSub(permutation.decryptWithPerm(everything,secretKey),secretKey);
+
+        System.out.println(decryptedValue);
+
+        try {
+            FileController.fileWriter("C:\\Users\\USER\\Desktop\\savedText.txt",decryptedValue);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 

@@ -24,8 +24,8 @@
                   <Font size="32.0" />
                </font>
             </Label>
-            <JFXButton layoutX="218.0" layoutY="347.0" style="-fx-background-color: #0272A6;" text="Decrypt" textFill="WHITE" />
-            <JFXPasswordField layoutX="104.0" layoutY="250.0" opacity="0.75" prefHeight="31.0" prefWidth="300.0" promptText="Enter passphrase" />
+            <JFXButton fx:id="btnDecrypt" layoutX="218.0" layoutY="347.0" onAction="#handleDecrypt" style="-fx-background-color: #0272A6;" text="Decrypt" textFill="WHITE" />
+            <JFXPasswordField fx:id="secretKeyDecrypt" layoutX="104.0" layoutY="250.0" opacity="0.75" prefHeight="31.0" prefWidth="300.0" promptText="Enter passphrase" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="paneEncrypt" layoutX="172.0" prefHeight="450.0" prefWidth="508.0" style="-fx-background-color: #EEEEEE;">
@@ -42,7 +42,7 @@
                   </font>
               </Label>
               <JFXButton fx:id="btnEncrypt" layoutX="218.0" layoutY="347.0" onAction="#handleEncrypt" style="-fx-background-color: #0272A6;" text="Encrypt" textFill="WHITE" />
-            <JFXPasswordField layoutX="104.0" layoutY="250.0" opacity="0.75" prefHeight="31.0" prefWidth="300.0" promptText="Enter passphrase" />
+            <JFXPasswordField fx:id="secretKeyEncrypt" layoutX="104.0" layoutY="250.0" opacity="0.75" prefHeight="31.0" prefWidth="300.0" promptText="Enter passphrase" />
          </children>
       </AnchorPane>
     </children>
